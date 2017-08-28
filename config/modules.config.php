@@ -18,4 +18,5 @@ return [
     'Zend\Router',
     'Zend\Validator',
     'Application',
+    'Tax',
 ];

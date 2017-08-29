@@ -8,7 +8,8 @@ use Zend\Router\Http\Segment;
 return [
     'controllers' => [
         'factories' => [
-            Controller\TaxController::class => InvokableFactory::class,
+            Controller\TaxController::class => 
+                            Controller\Factory\TaxControllerFactory::class,    
         ],
     ],
     'router' => [

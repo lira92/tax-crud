@@ -21,20 +21,4 @@ return [
         'module_map_cache_key' => 'application.module.cache',
         'cache_dir' => 'data/cache/',
     ],
-    'doctrine' => [
-        'connection' => [
-            // default connection name
-            'orm_default' => [
-                'driverClass' => \Doctrine\DBAL\Driver\PDOMySql\Driver::class,
-                'params' => [
-                    'host'     => 'localhost',
-                    'port'     => '33061',
-                    'user'     => 'root',
-                    'password' => 'tax-crud@123',
-                    'dbname'   => 'tax-crud',
-                ],
-            ],
-        ],
-    ],
-
 ];

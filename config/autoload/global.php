@@ -12,5 +12,19 @@
  */
 
 return [
-    // ...
+    'doctrine' => [
+        'connection' => [
+            // default connection name
+            'orm_default' => [
+                'driverClass' => \Doctrine\DBAL\Driver\PDOMySql\Driver::class,
+                'params' => [
+                    'host'     => 'database',
+                    'port'     => '3306',
+                    'user'     => 'root',
+                    'password' => 'tax-crud@123',
+                    'dbname'   => 'tax-crud',
+                ],
+            ],
+        ],
+    ],
 ];

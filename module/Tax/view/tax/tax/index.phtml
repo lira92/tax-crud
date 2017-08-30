@@ -4,7 +4,7 @@
 
 <h3>
   <a href="#">
-    <?= $this->escapeHtml($operator->getName()); ?>
+    <?= $operator->getEffectiveDate()->format('Y-m-d'); ?>
   </a>    
 </h3>
 

@@ -23,8 +23,8 @@ class OperatorSeed extends AbstractSeed
             ]
         ];
 
-        $posts = $this->table('operator');
-        $posts->insert($data)
+        $operator = $this->table('operator');
+        $operator->insert($data)
               ->save();
     }
 }

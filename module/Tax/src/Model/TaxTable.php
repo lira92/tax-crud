@@ -3,6 +3,16 @@
 namespace Tax\Model;
 
 use Doctrine\ORM\Mapping as ORM;
+use DomainException;
+use Zend\Filter\StringTrim;
+use Zend\Filter\StripTags;
+use Zend\Filter\ToInt;
+use Zend\Filter\DateSelect;
+use Zend\InputFilter\InputFilter;
+use Zend\InputFilter\InputFilterAwareInterface;
+use Zend\InputFilter\InputFilterInterface;
+use Zend\Validator\StringLength;
+use Zend\Validator\Date;
 
 /**
  * TaxTable
@@ -10,7 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="tax_table", indexes={@ORM\Index(name="operator_id", columns={"operator_id"})})
  * @ORM\Entity
  */
-class TaxTable
+class TaxTable implements InputFilterAwareInterface
 {
     /**
      * @var integer
@@ -45,6 +55,7 @@ class TaxTable
      */
     private $operator;
 
+    private $inputFilter;
 
     /**
      * Get id
@@ -126,6 +137,56 @@ class TaxTable
     public function getOperator()
     {
         return $this->operator;
+    }
+
+    public function setInputFilter(InputFilterInterface $inputFilter)
+    {
+        throw new DomainException(sprintf(
+            '%s does not allow injection of an alternate input filter',
+            __CLASS__
+        ));
+    }
+
+    public function getInputFilter()
+    {
+        if ($this->inputFilter) {
+            return $this->inputFilter;
+        }
+
+        $inputFilter = new InputFilter();
+
+        $inputFilter->add([
+            'name' => 'id',
+            'required' => true,
+            'filters' => [
+                ['name' => ToInt::class],
+            ],
+        ]);
+
+        $inputFilter->add([
+            'name' => 'description',
+            'required' => true,
+            'filters' => [
+                ['name' => StripTags::class],
+                ['name' => StringTrim::class],
+            ]
+        ]);
+
+        $inputFilter->add([
+            'name' => 'effective_date',
+            'required' => true,
+            'filters' => [
+                ['name' => DateSelect::class],
+            ],
+            'validators' => [
+                [
+                    'name' => Date::class
+                ],
+            ],
+        ]);
+
+        $this->inputFilter = $inputFilter;
+        return $this->inputFilter;
     }
 }
 

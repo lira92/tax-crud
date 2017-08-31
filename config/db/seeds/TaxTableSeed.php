@@ -16,12 +16,12 @@ class TaxTableSeed extends AbstractSeed
     {
         $data = [
             [
-                'description' => 'Operator 1',
+                'description' => 'Tax table 2017',
                 'effective_date' => date('Y-m-d H:i:s'),
                 'operator_id' => 1
             ],
             [
-                'description' => 'Operator 2',
+                'description' => 'Tax Table 2019',
                 'effective_date' => date('2019-m-d H:i:s'),
                 'operator_id' => 2
             ]

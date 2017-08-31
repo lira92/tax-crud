@@ -166,7 +166,7 @@ class TaxTable implements InputFilterAwareInterface
     public function addTaxes(\Doctrine\Common\Collections\ArrayCollection $taxes)
     {
         foreach($taxes as $tax) {
-            $this->add($tax);
+            $this->addTax($tax);
         }
     }
 
@@ -216,7 +216,7 @@ class TaxTable implements InputFilterAwareInterface
         ]);
 
         $inputFilter->add([
-            'name' => 'effective_date',
+            'name' => 'effectiveDate',
             'required' => true,
             'filters' => [
                 ['name' => DateSelect::class],

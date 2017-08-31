@@ -34,7 +34,7 @@ class TaxTableForm extends Form implements ObjectManagerAwareInterface
             ],
         ]);
         $this->add([
-            'name' => 'effective_date',
+            'name' => 'effectiveDate',
             'type' => 'DateSelect',
             'options' => [
                 'label' => 'Effective date',
@@ -43,7 +43,7 @@ class TaxTableForm extends Form implements ObjectManagerAwareInterface
 
         $this->add([
             'type' => 'DoctrineModule\Form\Element\ObjectSelect',
-            'name' => 'operator_id',
+            'name' => 'operator',
             'options' => [
                 'object_manager' => $this->getObjectManager(),
                 'target_class'   => 'Tax\Model\Operator',

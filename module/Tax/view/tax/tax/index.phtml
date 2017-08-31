@@ -1,11 +1,12 @@
 <h1>Operators</h1>
 
-<?php foreach($operators as $operator): ?>
+<?php foreach($taxTables as $taxTable): ?>
 
 <h3>
   <a href="#">
-    <?= $operator->getEffectiveDate()->format('Y-m-d'); ?>
-  </a>    
+    <?= $taxTable->getid(); ?>
+  </a>
+  <p>Tax Count: <?= count($taxTable->getTaxes()); ?></p>
 </h3>
 
 <?php endforeach; ?>

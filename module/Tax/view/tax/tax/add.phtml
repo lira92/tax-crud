@@ -5,13 +5,63 @@ $this->headTitle($title);
 ?>
 <h1><?= $this->escapeHtml($title) ?></h1>
 <?php
+$description = $form->get('description');
+$description->setAttribute('class', 'form-control');
+$description->setAttribute('placeholder', 'Tax Table Description');
+
+$effetive_date = $form->get('effective_date');
+$effetive_date->setAttribute('class', 'form-control');
+$effetive_date->setAttribute('placeholder', 'Effective Date');
+
+$operator_id = $form->get('operator_id');
+$operator_id->setAttribute('class', 'form-control');
+$operator_id->setAttribute('placeholder', 'Operator');
+
+$submit = $form->get('submit');
+$submit->setAttribute('class', 'btn btn-primary');
+
 $form->setAttribute('action', $this->url('tax', ['action' => 'add']));
 $form->prepare();
 
 echo $this->form()->openTag($form);
-echo $this->formHidden($form->get('id'));
-echo $this->formRow($form->get('description'));
-echo $this->formRow($form->get('effective_date'));
-echo $this->formRow($form->get('operator_id'));
+?>
+
+<div class="form-group">
+    <?= $this->formLabel($description) ?>
+    <?= $this->formElement($description) ?>
+    <?= $this->formElementErrors()->render($description, ['class' => 'help-block']) ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($effetive_date) ?>
+    <?= $this->formElement($effetive_date) ?>
+    <?= $this->formElementErrors()->render($effetive_date, ['class' => 'help-block']) ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($operator_id) ?>
+    <?= $this->formElement($operator_id) ?>
+    <?= $this->formElementErrors()->render($operator_id, ['class' => 'help-block']) ?>
+</div>
+
+<button onclick="return add_tax()">Add a new Tax</button>
+<?= $this->formCollection($form->get('taxes')); ?>
+
+<?php
 echo $this->formSubmit($form->get('submit'));
+echo $this->formHidden($form->get('id'));
 echo $this->form()->closeTag();
+
+?>
+
+<script type="text/javascript">
+function add_tax() {
+    var currentCount = $('form > fieldset > fieldset').length;
+    var template = $('form > fieldset > span').data('template');
+    template = template.replace(/__index__/g, currentCount);
+
+    $('form > fieldset').append(template);
+
+    return false;
+}
+</script>

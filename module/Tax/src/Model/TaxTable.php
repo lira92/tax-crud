@@ -13,6 +13,9 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 use Zend\Validator\StringLength;
 use Zend\Validator\Date;
+use Tax\Model\Tax;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * TaxTable
@@ -22,6 +25,11 @@ use Zend\Validator\Date;
  */
 class TaxTable implements InputFilterAwareInterface
 {
+    public function __construct()
+    {
+        $this->taxes = new ArrayCollection();
+    }
+
     /**
      * @var integer
      *
@@ -54,6 +62,16 @@ class TaxTable implements InputFilterAwareInterface
      * })
      */
     private $operator;
+
+    /**
+     * @var \Tax\Model\Tax
+     *
+     * @ORM\OneToMany(targetEntity="Tax\Model\Tax", mappedBy="taxTable", cascade={"persist", "remove"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="operator_id", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $taxes;
 
     private $inputFilter;
 
@@ -137,6 +155,31 @@ class TaxTable implements InputFilterAwareInterface
     public function getOperator()
     {
         return $this->operator;
+    }
+
+    public function addTax(Tax $tax)
+    {
+        $this->taxes[] = $tax;
+        $tax->setTaxTable($this);
+    }
+
+    public function addTaxes(\Doctrine\Common\Collections\ArrayCollection $taxes)
+    {
+        foreach($taxes as $tax) {
+            $this->add($tax);
+        }
+    }
+
+    public function removeTaxes(\Doctrine\Common\Collections\ArrayCollection $taxes)
+    {
+        foreach($taxes as $tax) {
+            $this->taxes->removeElement($tax);
+        }
+    }
+
+    public function getTaxes()
+    {
+        return $this->taxes;
     }
 
     public function setInputFilter(InputFilterInterface $inputFilter)

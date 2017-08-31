@@ -158,5 +158,10 @@ class Tax
     {
         return $this->taxTable;
     }
+
+    public function getArrayCopy()
+    {
+        return get_object_vars($this);
+    }
 }
 

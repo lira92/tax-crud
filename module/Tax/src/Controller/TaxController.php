@@ -117,8 +117,14 @@ class TaxController extends AbstractActionController
 
         if ($this->request->isPost()) 
         {
-            $this->entityManager->remove($taxTable);
-            $this->entityManager->flush();
+            try {
+                $this->entityManager->remove($taxTable);
+                $this->entityManager->flush();
+            } catch (\Exception $e) {
+                return new JsonModel([
+                    'success' => false
+                ]);
+            }
 
             return new JsonModel([
                 'success' => true

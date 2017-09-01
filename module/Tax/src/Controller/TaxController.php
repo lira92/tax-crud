@@ -4,10 +4,12 @@ namespace Tax\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 use Tax\Model\TaxTable;
 use Tax\Model\Tax;
 use Tax\Model\Operator;
 use Tax\Form\TaxTableForm;
+use Doctrine\ORM\Query;
 
 class TaxController extends AbstractActionController
 {
@@ -28,6 +30,20 @@ class TaxController extends AbstractActionController
 
         return new ViewModel([
             'taxTables' => $taxTables
+        ]);
+    }
+
+    public function getTaxesAction()
+    {
+        $taxTables = $this->entityManager
+            ->createQuery('SELECT tb, t, o FROM Tax\Model\TaxTable tb JOIN tb.taxes t JOIN tb.operator o')
+            ->getResult(Query::HYDRATE_ARRAY);
+
+        return new JsonModel([
+            'success' => true,
+            'data' => [
+                'taxTables' => $taxTables,
+            ],
         ]);
     }
 
@@ -96,6 +112,17 @@ class TaxController extends AbstractActionController
 
     public function deleteAction()
     {
+        $id = (int) $this->params()->fromRoute('id', 0);
+        $taxTable = $this->entityManager->getRepository(TaxTable::class)->findOneBy(['id' => $id]);
 
+        if ($this->request->isPost()) 
+        {
+            $this->entityManager->remove($taxTable);
+            $this->entityManager->flush();
+
+            return new JsonModel([
+                'success' => true
+            ]);
+        }
     }
 }

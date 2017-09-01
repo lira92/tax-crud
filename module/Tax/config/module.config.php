@@ -34,6 +34,9 @@ return [
         'template_path_stack' => [
             'album' => __DIR__ . '/../view',
         ],
+        'strategies' => [
+            'ViewJsonStrategy',
+        ],
     ],
     'doctrine' => [
         'driver' => [

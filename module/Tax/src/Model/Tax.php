@@ -3,6 +3,14 @@
 namespace Tax\Model;
 
 use Doctrine\ORM\Mapping as ORM;
+use Zend\InputFilter\InputFilterAwareInterface;
+use Zend\Filter\ToInt;
+use Zend\InputFilter\InputFilter;
+use Zend\InputFilter\InputFilterInterface;
+use Zend\I18n\Filter\NumberParse;
+use Zend\I18n\Validator\IsFloat;
+use Zend\Validator\GreaterThan;
+
 
 /**
  * Tax
@@ -10,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="tax", indexes={@ORM\Index(name="tax_table_id", columns={"tax_table_id"})})
  * @ORM\Entity
  */
-class Tax
+class Tax implements InputFilterAwareInterface
 {
     /**
      * @var integer
@@ -51,6 +59,8 @@ class Tax
      * })
      */
     private $taxTable;
+
+    private $inputFilter;
 
 
     /**
@@ -162,6 +172,83 @@ class Tax
     public function getArrayCopy()
     {
         return get_object_vars($this);
+    }
+
+    public function setInputFilter(InputFilterInterface $inputFilter)
+    {
+        throw new DomainException(sprintf(
+            '%s does not allow injection of an alternate input filter',
+            __CLASS__
+        ));
+    }
+
+    public function getInputFilter()
+    {
+        if ($this->inputFilter) {
+            return $this->inputFilter;
+        }
+
+        $inputFilter = new InputFilter();
+
+        $inputFilter->add([
+            'name' => 'value',
+            'required' => true,
+            'filters' => [
+                ['name' => NumberParse::class],
+            ],
+            'validators' => [
+                [
+                    'name' => IsFloat::class
+                ],
+                [
+                    'name' => GreaterThan::class,
+                    'options' => [
+                        'min' => 0
+                    ]
+                ],
+            ]
+        ]);
+
+        $inputFilter->add([
+            'name' => 'fromValue',
+            'required' => true,
+            'filters' => [
+                ['name' => NumberParse::class],
+            ],
+            'validators' => [
+                [
+                    'name' => IsFloat::class
+                ],
+                [
+                    'name' => GreaterThan::class,
+                    'options' => [
+                        'min' => 0
+                    ]
+                ],
+            ]
+        ]);
+
+        $inputFilter->add([
+            'name' => 'untilValue',
+            'required' => true,
+            'filters' => [
+                ['name' => NumberParse::class],
+            ],
+            'validators' => [
+                [
+                    'name' => IsFloat::class
+                ],
+                [
+                    'name' => GreaterThan::class,
+                    'options' => [
+                        'min' => 0
+                    ]
+                ],
+            ]
+        ]);
+
+        $this->inputFilter = $inputFilter;
+        return $this->inputFilter;
     }
 }
 

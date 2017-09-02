@@ -8,7 +8,7 @@ use DoctrineModule\Persistence\ObjectManagerAwareInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Tax\Form\TaxFieldset;
 
-class TaxTableForm extends Form implements ObjectManagerAwareInterface
+class TaxTableForm extends Form
 {
     protected $objectManager;
 
@@ -35,10 +35,14 @@ class TaxTableForm extends Form implements ObjectManagerAwareInterface
         ]);
         $this->add([
             'name' => 'effectiveDate',
-            'type' => 'DateSelect',
+            'type' => 'text',
             'options' => [
                 'label' => 'Effective date',
             ],
+            'attributes' => [
+                'class' => 'input-group date form-control',
+                'id' => 'effetiveDate_datepicker'
+            ]
         ]);
 
         $this->add([
@@ -56,14 +60,12 @@ class TaxTableForm extends Form implements ObjectManagerAwareInterface
             'type' => Element\Collection::class,
             'name' => 'taxes',
             'options' => [
-                'label' => 'Please add a taxes to this tax table',
                 'count' => 1,
                 'should_create_template' => true,
                 'allow_add' => true,
                 'target_element' => [
                     'type' => TaxFieldset::class,
                 ],
-                //'use_as_base_fieldset' => true,
             ],
         ]);
 
@@ -75,11 +77,6 @@ class TaxTableForm extends Form implements ObjectManagerAwareInterface
                 'id'    => 'submitbutton',
             ],
         ]);
-    }
-
-    public function setObjectManager(ObjectManager $objectManager)
-    {
-        $this->objectManager = $objectManager;
     }
 
     public function getObjectManager()

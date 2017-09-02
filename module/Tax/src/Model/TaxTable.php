@@ -130,7 +130,7 @@ class TaxTable implements InputFilterAwareInterface
      */
     public function getEffectiveDate()
     {
-        return $this->effectiveDate;
+        return $this->effectiveDate ? $this->effectiveDate->format('Y-m-d') : "";
     }
 
     /**

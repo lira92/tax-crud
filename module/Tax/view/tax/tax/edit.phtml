@@ -1,5 +1,8 @@
 <?php
 
+$this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js');
+$this->headLink()->appendStylesheet('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css');
+
 $title = 'Add new Tax Table';
 $this->headTitle($title);
 ?>
@@ -10,7 +13,6 @@ $description->setAttribute('class', 'form-control');
 $description->setAttribute('placeholder', 'Tax Table Description');
 
 $effetive_date = $form->get('effectiveDate');
-$effetive_date->setAttribute('class', 'form-control');
 $effetive_date->setAttribute('placeholder', 'Effective Date');
 
 $operator_id = $form->get('operator');
@@ -48,7 +50,8 @@ echo $this->form()->openTag($form);
     <?= $this->formElementErrors()->render($operator_id, ['class' => 'help-block']) ?>
 </div>
 
-<button onclick="return add_tax()">Add a new Tax</button>
+<legend>Please add a taxes to this tax table</legend>
+<button class="btn btn-success" onclick="return add_tax()">Add a new Tax</button>
 <?= $this->formCollection($form->get('taxes')); ?>
 
 <?php
@@ -68,4 +71,9 @@ function add_tax() {
 
     return false;
 }
+$(document).ready(function() {
+    $('#effetiveDate_datepicker').datepicker({
+        format: "yyyy-mm-dd"
+    });
+});
 </script>

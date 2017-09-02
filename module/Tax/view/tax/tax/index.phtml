@@ -2,6 +2,7 @@
 
 $this->headScript()->appendFile('https://unpkg.com/vue');
 $this->headScript()->appendFile('https://unpkg.com/axios/dist/axios.min.js');
+$this->headScript()->appendFile('https://cdn.jsdelivr.net/npm/vue2-filters/dist/vue2-filters.min.js');
 $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js');
 
 ?>
@@ -48,9 +49,9 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/moment.j
                                     </thead>\
                                     <tbody>\
                                         <tr v-for="tax in taxList">\
-                                            <td>{{tax.value}}</td>\
-                                            <td>{{tax.fromValue}}</td>\
-                                            <td>{{tax.untilValue}}</td>\
+                                            <td>{{tax.value}}%</td>\
+                                            <td>{{tax.fromValue | currency}}</td>\
+                                            <td>{{tax.untilValue | currency}}</td>\
                                         </tr>\
                                     </tbody>\
                                 </table>

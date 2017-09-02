@@ -7,7 +7,7 @@ use Zend\Form\Fieldset;
 use Zend\InputFilter\InputFilterProviderInterface;
 use Zend\Hydrator\ClassMethods as ClassMethodsHydrator;
 
-class TaxFieldset extends Fieldset implements InputFilterProviderInterface
+class TaxFieldset extends Fieldset
 {
     public function __construct()
     {
@@ -26,6 +26,8 @@ class TaxFieldset extends Fieldset implements InputFilterProviderInterface
             ],
             'attributes' => [
                 'required' => 'required',
+                'class' => 'form-control',
+                'step' => '0.01'
             ],
         ]);
 
@@ -37,6 +39,8 @@ class TaxFieldset extends Fieldset implements InputFilterProviderInterface
             ],
             'attributes' => [
                 'required' => 'required',
+                'class' => 'form-control',
+                'step' => '0.01'
             ],
         ]);
 
@@ -48,25 +52,9 @@ class TaxFieldset extends Fieldset implements InputFilterProviderInterface
             ],
             'attributes' => [
                 'required' => 'required',
+                'class' => 'form-control',
+                'step' => '0.01'
             ],
         ]);
-    }
-
-    /**
-     * @return array
-     */
-    public function getInputFilterSpecification()
-    {
-        return [
-            'value' => [
-                'required' => true,
-            ],
-            'fromValue' => [
-                'required' => true,
-            ],
-            'untilValue' => [
-                'required' => true,
-            ],
-        ];
     }
 }

@@ -100,7 +100,7 @@ class TaxController extends AbstractActionController
         $form->setInputFilter($taxTable->getInputFilter());
         $form->setData($request->getPost());
 
-        if (! $form->isValid()) {
+        if (!$form->isValid()) {
             return $viewData;
         }
 

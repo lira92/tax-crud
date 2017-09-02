@@ -2,7 +2,7 @@
 
 ## Installation with docker
 
-The easy way to start the application is using docker, for this run:
+The easy way to start the application is using docker, so run:
 
 ```bash
 $ docker-compose up --build
